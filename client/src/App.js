@@ -6,20 +6,20 @@ import { Login } from "./Login";
 const data = [
   {
     id: 1,
-    body: 'Welcome to nest chat app',
-    author: 'Bot',
+    body: "Welcome to nest chat app",
+    author: "Bot",
   },
   {
     id: 2,
-    body: 'Hello',
-    author: 'Aidana',
+    body: "Hello",
+    author: "Aidana",
   },
   {
     id: 3,
-    body: 'Hello',
-    author: 'Aidana',
-  }
-]
+    body: "Hello",
+    author: "Aidana",
+  },
+];
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
@@ -28,7 +28,11 @@ function App() {
   return (
     <div className="app">
       {currentUser ? (
-        <Chat currentUser={currentUser} messages={messages} />
+        <Chat
+          currentUser={currentUser}
+          messages={messages}
+          onLogout={() => setCurrentUser(null)}
+        />
       ) : (
         <Login onLogin={setCurrentUser} />
       )}

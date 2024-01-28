@@ -9,13 +9,13 @@ export function Login({ onLogin }) {
     <div className="login">
       <span className="login-title">Login to your account</span>
       <input
-        className="login-input"
+        className="input"
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
       />
       <button
         disabled={loginButtonDisabled}
-        className="login-button"
+        className="button"
         onClick={() => onLogin(inputValue)}
       >
         Login
