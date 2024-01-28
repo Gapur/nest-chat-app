@@ -108,6 +108,7 @@ code {
 }
 
 .chat-message-bubble {
+  width: fit-content;
   border-radius: 0 0.7em 0.7em 0;
   background-color: #c6e3fa;
   padding: 0.6em 0.9em;

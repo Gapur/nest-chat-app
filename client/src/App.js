@@ -8,22 +8,22 @@ const data = [
     id: 1,
     body: "Welcome to nest chat app",
     author: "Bot",
-  },
-  {
-    id: 2,
-    body: "Hello",
-    author: "Aidana",
-  },
-  {
-    id: 3,
-    body: "Hello",
-    author: "Aidana",
-  },
+  }
 ];
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [messages, setMessages] = useState(data);
+
+  const onSendMessage = (newMessage) => {
+    const updatedMessages = messages.concat(newMessage);
+    setMessages(updatedMessages);
+  }
+
+  const onLogout = () => {
+    setCurrentUser(null);
+    setMessages(data);
+  }
 
   return (
     <div className="app">
@@ -31,7 +31,8 @@ function App() {
         <Chat
           currentUser={currentUser}
           messages={messages}
-          onLogout={() => setCurrentUser(null)}
+          onLogout={onLogout}
+          onSendMessage={onSendMessage}
         />
       ) : (
         <Login onLogin={setCurrentUser} />

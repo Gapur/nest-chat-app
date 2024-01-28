@@ -1,4 +1,16 @@
-export function Chat({ currentUser, messages, onLogout }) {
+import { useState } from 'react';
+
+export function Chat({ currentUser, messages, onSendMessage, onLogout }) {
+  const [inputValue, setInputValue] = useState('');
+
+  const handleSendMessage = (e) => {
+    if (e.key !== 'Enter' || inputValue.trim().length === 0) return;
+
+    const newMessage = { author: currentUser, body: inputValue.trim() };
+    onSendMessage(newMessage);
+    setInputValue('');
+  }
+
   return (
     <div className="chat">
       <div className="chat-header">
@@ -28,6 +40,9 @@ export function Chat({ currentUser, messages, onLogout }) {
         <input
           className="chat-composer-input"
           placeholder="Type message here"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          onKeyDown={handleSendMessage}
         />
       </div>
     </div>
