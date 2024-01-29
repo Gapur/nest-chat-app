@@ -1,21 +1,56 @@
-import { useState } from 'react';
+import { useState, useEffect } from "react";
+import { io } from "socket.io-client";
 
-export function Chat({ currentUser, messages, onSendMessage, onLogout }) {
-  const [inputValue, setInputValue] = useState('');
+const SystemMessage = {
+  id: 1,
+  body: "Welcome to the Nest Chat app",
+  author: "Bot",
+};
+
+const socket = io('http://localhost:4000');
+
+export function Chat({ currentUser, onLogout }) {
+  const [inputValue, setInputValue] = useState("");
+  const [messages, setMessages] = useState([SystemMessage]);
+
+  useEffect(() => {
+    socket.on("connect", () => {
+      console.log("Socket connected");
+    });
+
+    socket.on("disconnect", () => {
+      console.log("Socket disconnected");
+    });
+
+    socket.on("chat", (newMessage) => {
+      console.log("New message added", newMessage);
+      setMessages((previousMessages) => [...previousMessages, newMessage]);
+    });
+
+    return () => {
+      socket.off("connect");
+      socket.off("disconnect");
+      socket.off("chat");
+    };
+  }, []);
 
   const handleSendMessage = (e) => {
-    if (e.key !== 'Enter' || inputValue.trim().length === 0) return;
+    if (e.key !== "Enter" || inputValue.trim().length === 0) return;
 
-    const newMessage = { author: currentUser, body: inputValue.trim() };
-    onSendMessage(newMessage);
-    setInputValue('');
-  }
+    socket.emit("chat", { author: currentUser, body: inputValue.trim() });
+    setInputValue("");
+  };
+
+  const handleLogout = () => {
+    socket.disconnect();
+    onLogout();
+  };
 
   return (
     <div className="chat">
       <div className="chat-header">
         <span>Nest Chat App</span>
-        <button className="button" onClick={onLogout}>
+        <button className="button" onClick={handleLogout}>
           Logout
         </button>
       </div>
