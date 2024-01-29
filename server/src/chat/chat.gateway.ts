@@ -1,9 +1,29 @@
-import { SubscribeMessage, WebSocketGateway } from '@nestjs/websockets';
+import {
+  SubscribeMessage,
+  WebSocketGateway,
+  WebSocketServer,
+  MessageBody,
+} from '@nestjs/websockets';
+import { Logger } from '@nestjs/common';
+import { Server } from 'socket.io';
 
-@WebSocketGateway()
+import { AddMessageDto } from './dto/add-message.dto';
+
+@WebSocketGateway({
+  cors: {
+    origin: '*',
+  },
+})
 export class ChatGateway {
-  @SubscribeMessage('message')
-  handleMessage(client: any, payload: any): string {
-    return 'Hello world!';
+  @WebSocketServer()
+  server: Server;
+
+  private logger = new Logger('ChatGateway');
+
+  @SubscribeMessage('chat')
+  handleMessage(@MessageBody() payload: AddMessageDto): AddMessageDto {
+    this.logger.log(`Message received: ${payload}`);
+    this.server.emit('chat', payload);
+    return payload;
   }
 }
