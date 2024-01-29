@@ -131,8 +131,6 @@ code {
 }
 
 .outgoing .chat-message-wrapper {
-  display: flex;
-  flex-direction: column;
   align-items: end;
 }
 
