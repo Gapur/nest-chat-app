@@ -7,13 +7,15 @@ const SystemMessage = {
   author: "Bot",
 };
 
-const socket = io('http://localhost:4000');
+const socket = io('http://localhost:4000', { autoConnect: false });
 
 export function Chat({ currentUser, onLogout }) {
   const [inputValue, setInputValue] = useState("");
   const [messages, setMessages] = useState([SystemMessage]);
 
   useEffect(() => {
+    socket.connect();
+
     socket.on("connect", () => {
       console.log("Socket connected");
     });

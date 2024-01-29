@@ -6,14 +6,10 @@ import { Login } from "./Login";
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
 
-  const onLogout = () => {
-    setCurrentUser(null);
-  };
-
   return (
     <div className="app">
       {currentUser ? (
-        <Chat currentUser={currentUser} onLogout={onLogout} />
+        <Chat currentUser={currentUser} onLogout={() => setCurrentUser(null)} />
       ) : (
         <Login onLogin={setCurrentUser} />
       )}
