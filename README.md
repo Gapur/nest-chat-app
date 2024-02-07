@@ -45,7 +45,7 @@ It will create a chat folder with chat.gateway.ts and chat.gateway.spec.ts files
 
 The ChatGateway class is annotated with the WebSocketGateway decorator and has a handleMessage method with a message event subscription decorator. So it will process the incoming message while passing data from the client.
 
-```
+```ts
 import { SubscribeMessage, WebSocketGateway } from '@nestjs/websockets';
 
  @WebSocketGateway()
@@ -75,7 +75,7 @@ We’ll talk more about it in the next chapter.
 
 In the previous example, we simply returned data from the server to a specific client. Now let’s broadcast a message to all customers who have subscribed up for chat messages.
 
-```
+```ts
 import {
   SubscribeMessage,
   WebSocketGateway,
@@ -107,7 +107,7 @@ Above, to access the socket.io server, we used the WebSocketServer decorator to 
 
 Last, we’ll use two handy lifecycle hooks provided by Nest to show when a socket is connected or disconnected.
 
-```tsx
+```ts
 @WebSocketGateway({ cors: { origin: '*' } })
 export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   ...
